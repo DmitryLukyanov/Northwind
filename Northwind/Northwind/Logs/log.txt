@@ -65,3 +65,9 @@ System.Exception: Something went wrong
    at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+2020-03-16 18:12:28.712 +03:00 [INF] Starting host from D:\trainings\.net core\northwind\Northwind\Northwind
+2020-03-16 18:12:41.319 +03:00 [INF] Northwind database started and configured
+2020-03-16 18:28:05.964 +03:00 [INF] Starting host from D:\trainings\.net core\northwind\Northwind\Northwind
+2020-03-16 18:28:10.211 +03:00 [INF] Northwind database started and configured
+2020-03-16 18:55:04.248 +03:00 [INF] Starting host from D:\trainings\.net core\northwind\Northwind\Northwind
+2020-03-16 18:55:09.533 +03:00 [INF] Northwind database started and configured

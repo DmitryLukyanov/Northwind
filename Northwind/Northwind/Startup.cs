@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using Northwind.Services;
+using Northwind.Services.Interfaces;
 using Serilog;
 
 namespace Northwind
@@ -41,6 +43,9 @@ namespace Northwind
             services.AddSingleton<IConfiguration>(configuration);
             services.AddDbContext<Data.NorthwindDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("NorthwindDb")));
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ISupplierService, SupplierService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

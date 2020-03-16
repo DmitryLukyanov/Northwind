@@ -1,4 +1,5 @@
-﻿using Northwind.Models;
+﻿using Northwind.DataValidation;
+using Northwind.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,7 +28,7 @@ namespace Northwind.Models
         public decimal? UnitPrice { get; set; }
         [DisplayName("Units in stock")]
         public short? UnitsInStock { get; set; }
-        [Compare("UnitsInStock", ErrorMessage = "Units on order must be less than units in stock.")]
+        [NumberLessOrEqual("UnitsInStock")]
         [DisplayName("Units on order")]
         public short? UnitsOnOrder { get; set; }
         [DisplayName("Reorder Level")]
