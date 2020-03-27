@@ -1,19 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Northwind.Data;
 using Northwind.Models;
 using Northwind.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Northwind.Services
 {
     public class ProductService : IProductService
     {
+        private readonly NorthwindDbContext context;
 
-        private Northwind.Data.NorthwindDbContext context;
-
-        public ProductService(Northwind.Data.NorthwindDbContext context)
+        public ProductService(NorthwindDbContext context)
         {
             this.context = context;
         }
@@ -37,12 +35,14 @@ namespace Northwind.Services
 
         public IEnumerable<Product> GetAll()
         {
-            return context.Products.Include(product => product.Category).Include(product => product.Supplier).OrderBy(product => product.ProductName);
+            return context.Products.Include(product => product.Category).Include(product => product.Supplier)
+                .OrderBy(product => product.ProductName);
         }
 
         public IEnumerable<Product> Take(int count)
         {
-            return context.Products.Include(product => product.Category).Include(product => product.Supplier).OrderBy(product => product.ProductName).Take(count);
+            return context.Products.Include(product => product.Category).Include(product => product.Supplier)
+                .OrderBy(product => product.ProductName).Take(count);
         }
     }
 }

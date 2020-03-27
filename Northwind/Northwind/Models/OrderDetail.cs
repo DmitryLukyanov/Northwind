@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Northwind.Models
+﻿namespace Northwind.Models
 {
-    public partial class OrderDetail
+    public class OrderDetail
     {
         public int OrderId { get; set; }
         public int ProductId { get; set; }

@@ -1,13 +1,13 @@
-﻿using Northwind.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Northwind.Models;
 
 namespace Northwind.Services.Interfaces
 {
     public interface ICategoryService
     {
         IEnumerable<Category> GetAll();
+        Category Get(int id);
+        byte[] GetPicture(int id);
+        void SetPicture(int id, byte[] content);
     }
 }

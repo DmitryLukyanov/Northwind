@@ -1,10 +1,8 @@
-﻿using Northwind.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Northwind.Models
 {
-    public partial class CustomerDemographic
+    public class CustomerDemographic
     {
         public CustomerDemographic()
         {

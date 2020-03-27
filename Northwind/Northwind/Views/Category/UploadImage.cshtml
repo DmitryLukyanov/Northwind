@@ -1,0 +1,15 @@
+﻿@model Northwind.Models.Category
+
+<h1>Upload new image for @Html.DisplayFor(modelItem => Model.CategoryName) </h1>
+<form method="post" enctype="multipart/form-data" asp-controller="Category" asp-action="UploadImage">
+    <div class="form-group">
+        <div>
+            <input type="file" name="files" multiple/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div >
+            <input type="submit" value="Upload"/>
+        </div>
+    </div>
+</form>

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Northwind.DataValidation
 {
@@ -17,7 +14,7 @@ namespace Northwind.DataValidation
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var currentValue = (short?)value;
+            var currentValue = (short?) value;
 
             var property = validationContext.ObjectType.GetProperty(secondProperty);
 
@@ -27,11 +24,12 @@ namespace Northwind.DataValidation
             }
 
 
-            var secondValue = (short?)property.GetValue(validationContext.ObjectInstance);
+            var secondValue = (short?) property.GetValue(validationContext.ObjectInstance);
 
             if (!secondValue.HasValue || currentValue > secondValue)
             {
-                return new ValidationResult($"{validationContext.DisplayName} must be less or equal to {property.Name}");
+                return new ValidationResult(
+                    $"{validationContext.DisplayName} must be less or equal to {property.Name}");
             }
 
             return ValidationResult.Success;

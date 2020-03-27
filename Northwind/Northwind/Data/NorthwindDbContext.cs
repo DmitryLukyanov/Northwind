@@ -1,11 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
 
 namespace Northwind.Data
 {
-    public partial class NorthwindDbContext : DbContext
+    public class NorthwindDbContext : DbContext
     {
         public NorthwindDbContext()
         {
@@ -54,7 +52,7 @@ namespace Northwind.Data
 
             modelBuilder.Entity<CustomerCustomerDemo>(entity =>
             {
-                entity.HasKey(e => new { e.CustomerId, e.CustomerTypeId })
+                entity.HasKey(e => new {e.CustomerId, e.CustomerTypeId})
                     .ForSqlServerIsClustered(false);
 
                 entity.Property(e => e.CustomerId)
@@ -137,7 +135,7 @@ namespace Northwind.Data
 
             modelBuilder.Entity<EmployeeTerritory>(entity =>
             {
-                entity.HasKey(e => new { e.EmployeeId, e.TerritoryId })
+                entity.HasKey(e => new {e.EmployeeId, e.TerritoryId})
                     .ForSqlServerIsClustered(false);
 
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
@@ -215,7 +213,7 @@ namespace Northwind.Data
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
-                entity.HasKey(e => new { e.OrderId, e.ProductId })
+                entity.HasKey(e => new {e.OrderId, e.ProductId})
                     .HasName("PK_Order_Details");
 
                 entity.ToTable("Order Details");

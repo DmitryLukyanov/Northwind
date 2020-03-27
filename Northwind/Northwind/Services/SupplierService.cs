@@ -1,18 +1,16 @@
-﻿using Northwind.Models;
-using Northwind.Services.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Northwind.Data;
+using Northwind.Models;
+using Northwind.Services.Interfaces;
 
 namespace Northwind.Services
 {
     public class SupplierService : ISupplierService
     {
+        private readonly NorthwindDbContext context;
 
-        private Northwind.Data.NorthwindDbContext context;
-
-        public SupplierService(Northwind.Data.NorthwindDbContext context)
+        public SupplierService(NorthwindDbContext context)
         {
             this.context = context;
         }
