@@ -48,7 +48,7 @@ namespace Northwind.Middleware
                 httpContext.Response.Body = responseBody;
                 await next(httpContext);
                 httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
-                if (httpContext.Response.ContentType == "image/png" &&
+                if (httpContext.Response.ContentType == "image/bmp" &&
                     Directory.GetFiles(absolutePathCacheDirectory, "*", SearchOption.AllDirectories).Length <
                     options.MaxCacheSize)
                 {
