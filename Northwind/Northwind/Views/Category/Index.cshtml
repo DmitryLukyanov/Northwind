@@ -3,25 +3,32 @@
 @{
     ViewData["Title"] = "Categories";
 }
+@using Northwind.Helpers
 
 <h1>Categories</h1>
 
 
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Picture)
-        </th>
-        <th>
-        </th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+            </th>
+        </tr>
     </thead>
     <tbody>
     @foreach (var item in Model)
@@ -34,10 +41,16 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <img src="Category/Image/@item.CategoryId" height="30" width="30"/>
+                <img src="Category/Image/@item.CategoryId" height="30" width="30" />
             </td>
             <td>
-                @Html.ActionLink("Upload Image", "UploadImage", new {id = item.CategoryId})
+                @Html.NorthwindImageLink(item.CategoryId.ToString(), item.CategoryName)
+            </td>
+            <td>
+                <a northwind-id="@item.CategoryId">@item.CategoryName</a>
+            </td>
+            <td>
+                @Html.ActionLink("Upload Image", "UploadImage", new { id = item.CategoryId })
             </td>
         </tr>
     }
