@@ -57,7 +57,7 @@ namespace Northwind
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
@@ -76,12 +76,12 @@ namespace Northwind
 
             loggerFactory.AddSerilog();
 
-            app.UseCachingMiddleware(new CachingOptions
-            {
-                CacheDirectory = configuration["CacheDirectory"],
-                ExpirationTime = configuration.GetValue<int>("CacheExpirationTime"),
-                MaxCacheSize = configuration.GetValue<int>("MaxCacheSize")
-            });
+            //app.UseCachingMiddleware(new CachingOptions
+            //{
+            //    CacheDirectory = configuration["CacheDirectory"],
+            //    ExpirationTime = configuration.GetValue<int>("CacheExpirationTime"),
+            //    MaxCacheSize = configuration.GetValue<int>("MaxCacheSize")
+            //});
 
 
             app.UseMvc(routes =>

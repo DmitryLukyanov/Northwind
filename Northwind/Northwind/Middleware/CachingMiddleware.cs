@@ -20,48 +20,56 @@ namespace Northwind.Middleware
 
         public async Task Invoke(HttpContext httpContext)
         {
-            var absolutePathCacheDirectory = Path.Combine(Environment.CurrentDirectory, options.CacheDirectory);
-            Directory.CreateDirectory(absolutePathCacheDirectory);
-            var pathToCachedFile = Path.Combine(absolutePathCacheDirectory,
-                httpContext.Request.Path.Value.Remove(0, 1).Replace('/', Path.DirectorySeparatorChar) + ".cache");
-            // skip further processing if cache exists and not expired
-            if (File.Exists(pathToCachedFile))
+            try
             {
-                if (DateTime.Now.AddMinutes(-options.ExpirationTime) < File.GetCreationTime(pathToCachedFile))
+                var absolutePathCacheDirectory = Path.Combine(Environment.CurrentDirectory, options.CacheDirectory);
+                Directory.CreateDirectory(absolutePathCacheDirectory);
+                var pathToCachedFile = Path.Combine(absolutePathCacheDirectory,
+                    httpContext.Request.Path.Value.Remove(0, 1).Replace('/', Path.DirectorySeparatorChar) + ".cache");
+                // skip further processing if cache exists and not expired
+                if (File.Exists(pathToCachedFile))
                 {
-                    using (var fileStream = File.OpenRead(pathToCachedFile))
+                    if (DateTime.Now.AddMinutes(-options.ExpirationTime) < File.GetCreationTime(pathToCachedFile))
                     {
-                        fileStream.Seek(0, SeekOrigin.Begin);
-                        fileStream.CopyTo(httpContext.Response.Body);
-                        return;
+                        using (var fileStream = File.OpenRead(pathToCachedFile))
+                        {
+                            fileStream.Seek(0, SeekOrigin.Begin);
+                            fileStream.CopyTo(httpContext.Response.Body);
+                            return;
+                        }
                     }
+
+                    File.Delete(pathToCachedFile);
                 }
 
-                File.Delete(pathToCachedFile);
+                //proceed with usual request if cached image was not found or was cleared
+
+                var originalBodyStream = httpContext.Response.Body;
+                using (var responseBody = new MemoryStream())
+                {
+                    httpContext.Response.Body = responseBody;
+                    await next(httpContext);
+                    httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
+                    if (httpContext.Response.ContentType == "image/bmp" &&
+                        Directory.GetFiles(absolutePathCacheDirectory, "*", SearchOption.AllDirectories).Length <
+                        options.MaxCacheSize)
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(pathToCachedFile));
+                        using (var fileStream = File.Create(pathToCachedFile))
+                        {
+                            httpContext.Response.Body.CopyTo(fileStream);
+                            httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
+                        }
+                    }
+
+                    await responseBody.CopyToAsync(originalBodyStream);
+                }
             }
-
-            //proceed with usual request if cached image was not found or was cleared
-
-            var originalBodyStream = httpContext.Response.Body;
-            using (var responseBody = new MemoryStream())
+            catch (Exception)
             {
-                httpContext.Response.Body = responseBody;
                 await next(httpContext);
-                httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
-                if (httpContext.Response.ContentType == "image/bmp" &&
-                    Directory.GetFiles(absolutePathCacheDirectory, "*", SearchOption.AllDirectories).Length <
-                    options.MaxCacheSize)
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(pathToCachedFile));
-                    using (var fileStream = File.Create(pathToCachedFile))
-                    {
-                        httpContext.Response.Body.CopyTo(fileStream);
-                        httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
-                    }
-                }
-
-                await responseBody.CopyToAsync(originalBodyStream);
             }
+
         }
     }
 
