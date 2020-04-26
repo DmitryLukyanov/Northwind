@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.28803.598
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind", "Northwind\Northwind.csproj", "{044F1393-DA22-4D77-9A76-CF4E8766DA1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Tests", "Northwind.Tests\Northwind.Tests.csproj", "{8905B384-BA75-4F0F-A689-CCC8A2C9A48B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Tests", "Northwind.Tests\Northwind.Tests.csproj", "{8905B384-BA75-4F0F-A689-CCC8A2C9A48B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{F7CDEB15-CEF6-49F1-9360-CAC24A6D86DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.API.Tests", "Northwind.API.Tests\Northwind.API.Tests.csproj", "{54D0FF89-0873-4298-9A47-5CED0CF375F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{8905B384-BA75-4F0F-A689-CCC8A2C9A48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8905B384-BA75-4F0F-A689-CCC8A2C9A48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8905B384-BA75-4F0F-A689-CCC8A2C9A48B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7CDEB15-CEF6-49F1-9360-CAC24A6D86DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7CDEB15-CEF6-49F1-9360-CAC24A6D86DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7CDEB15-CEF6-49F1-9360-CAC24A6D86DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7CDEB15-CEF6-49F1-9360-CAC24A6D86DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54D0FF89-0873-4298-9A47-5CED0CF375F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54D0FF89-0873-4298-9A47-5CED0CF375F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54D0FF89-0873-4298-9A47-5CED0CF375F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54D0FF89-0873-4298-9A47-5CED0CF375F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

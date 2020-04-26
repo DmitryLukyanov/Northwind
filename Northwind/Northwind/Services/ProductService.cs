@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Northwind.Data;
 using Northwind.Models;
 using Northwind.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace Northwind.Services
 {
@@ -43,6 +44,21 @@ namespace Northwind.Services
         {
             return context.Products.Include(product => product.Category).Include(product => product.Supplier)
                 .OrderBy(product => product.ProductName).Take(count);
+        }
+
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            return await context.Products.ToListAsync();
+        }
+
+        public void Delete(int id)
+        {
+            var productToDelete = context.Products.FirstOrDefault(product => product.ProductId == id);
+            if (productToDelete != null)
+            { 
+                context.Products.Remove(productToDelete);
+                context.SaveChanges();
+            }
         }
     }
 }

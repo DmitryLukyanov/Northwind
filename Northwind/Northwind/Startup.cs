@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Northwind.Data;
 using Northwind.Filters;
 using Northwind.Middleware;
@@ -46,6 +48,13 @@ namespace Northwind
             services.AddScoped<ISupplierService, SupplierService>();
             services.AddMvc(options => options.Filters.Add(typeof(LogActionFilter)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Northwind API", Version = "v1" });
+                c.CustomOperationIds(d => (d.ActionDescriptor as ControllerActionDescriptor)?.ActionName);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +69,13 @@ namespace Northwind
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            app.UseSwagger(o => o.SerializeAsV2 = true);
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Northwind API V1");
+                
+            });
 
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
@@ -93,6 +109,7 @@ namespace Northwind
             });
 
             Log.Information("Northwind database started and configured");
+
         }
     }
 }
