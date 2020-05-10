@@ -89,7 +89,7 @@ namespace Northwind
             });
 
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             loggerFactory.AddSerilog();
 
             //app.UseCachingMiddleware(new CachingOptions

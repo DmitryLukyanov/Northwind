@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
 
 namespace Northwind.Data
 {
-    public class NorthwindDbContext : DbContext
+    public class NorthwindDbContext : IdentityDbContext<NorthwindUser>
     {
         public NorthwindDbContext()
         {
@@ -30,6 +31,7 @@ namespace Northwind.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity<Category>(entity =>

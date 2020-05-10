@@ -12,15 +12,18 @@ namespace Northwind.ViewComponents
 
         public Task<IViewComponentResult> InvokeAsync()
         {
-            var controller = ViewContext.RouteData.Values["controller"].ToString();
-            var action = ViewContext.RouteData.Values["action"].ToString();
+            var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+            var actionName = ViewContext.RouteData.Values["action"]?.ToString();
             var breadcrumbs = new List<BreadcrumbViewModel>();
             breadcrumbs.Add(new BreadcrumbViewModel() { DisplayName = "Home", Url = "/" });
-            breadcrumbs.Add(new BreadcrumbViewModel() { DisplayName = controller, Url = $"/{controller}" });
+            if (!string.IsNullOrEmpty(controllerName))
+            { 
+                breadcrumbs.Add(new BreadcrumbViewModel() { DisplayName = controllerName, Url = $"/{controllerName}" }); 
+            }
 
-            if (!action.Equals("Index"))
+            if (!string.IsNullOrEmpty(actionName) && !actionName.Equals("Index"))
             {
-                breadcrumbs.Add(new BreadcrumbViewModel() { DisplayName = action });
+                breadcrumbs.Add(new BreadcrumbViewModel() { DisplayName = actionName });
             }
             return Task.FromResult<IViewComponentResult>(View(breadcrumbs));
         }
