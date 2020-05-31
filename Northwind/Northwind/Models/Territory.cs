@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Northwind.Models
 {
-    public partial class Territory
+    public class Territory
     {
         public Territory()
         {

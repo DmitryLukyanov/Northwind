@@ -3,8 +3,9 @@
 @{
     ViewData["Title"] = "Categories";
 }
+@using Northwind.Helpers
 
-    <h1>Categories</h1>
+<h1>Categories</h1>
 
 
 <table class="table">
@@ -16,10 +17,22 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CategoryName)
@@ -27,7 +40,27 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
+            <td>
+                <img src="Category/Image/@item.CategoryId" height="30" width="30" />
+            </td>
+            <td>
+                @Html.NorthwindImageLink(item.CategoryId.ToString(), item.CategoryName)
+            </td>
+            <td>
+                <a northwind-id="@item.CategoryId">@item.CategoryName</a>
+            </td>
+            <td>
+                @Html.ActionLink("Upload Image", "UploadImage", new { id = item.CategoryId })
+            </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+
+@section Footer
+{
+    <footer>
+        <div class="text-center">You cannot edit categories.</div>
+        <div class="text-center">(c) Northwind @DateTime.Now.Year.ToString()</div>
+    </footer>
+}

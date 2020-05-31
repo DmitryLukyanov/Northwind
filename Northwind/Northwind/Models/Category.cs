@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Northwind.Models
 {
-    public partial class Category
+    public class Category
     {
         public Category()
         {
@@ -12,8 +11,9 @@ namespace Northwind.Models
         }
 
         public int CategoryId { get; set; }
-        [DisplayName("Name")]
-        public string CategoryName { get; set; }
+
+        [DisplayName("Name")] public string CategoryName { get; set; }
+
         public string Description { get; set; }
         public byte[] Picture { get; set; }
 

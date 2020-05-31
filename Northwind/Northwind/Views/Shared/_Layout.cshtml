@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    @if (IsSectionDefined("Header"))
+    {
+        @RenderSection("Header");
+    }
+    else
+    {
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -30,16 +36,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                        </li>
                     </ul>
                 </div>
             </div>
+            <partial name="_LoginPartial" />
         </nav>
+        @await Component.InvokeAsync("Breadcrumbs");
     </header>
+    }
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
 
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
@@ -48,6 +62,17 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", false)
+
+    @if (IsSectionDefined("Footer"))
+    {
+        @RenderSection("Footer");
+    }
+    else
+    {
+        <footer>
+            <div class="text-center">(c) Northwind @DateTime.Now.Year.ToString()</div>
+        </footer>
+    }
 </body>
 </html>

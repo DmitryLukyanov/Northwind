@@ -1,50 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Northwind.Data;
 using Northwind.Models;
+using Northwind.Services.Interfaces;
 using Northwind.ViewModels;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Northwind.Controllers
 {
     public class ProductController : Controller
     {
+        private readonly ICategoryService categoryService;
+        private readonly IConfiguration configuration;
+        private readonly IProductService productService;
+        private readonly ISupplierService supplierService;
 
-        private NorthwindDbContext dbContext;
-        private IConfiguration configuration;
-
-        public ProductController(NorthwindDbContext dbContext, IConfiguration configuration)
+        public ProductController(IConfiguration configuration, ICategoryService categoryService,
+            IProductService productService, ISupplierService supplierService)
         {
-            this.dbContext = dbContext;
+            this.categoryService = categoryService;
+            this.supplierService = supplierService;
+            this.productService = productService;
             this.configuration = configuration;
         }
 
-        
+
         public IActionResult Index()
         {
-            int count = configuration.GetValue<int>("MaxProductsPerPage");
+            var count = configuration.GetValue<int>("MaxProductsPerPage");
             if (count == 0)
             {
-                return View(dbContext.Products.Include(product => product.Category).Include(product => product.Supplier).OrderBy(product => product.ProductName));
+                return View(productService.GetAll());
             }
-            else
-            {
-                return View(dbContext.Products.Include(product => product.Category).Include(product => product.Supplier).OrderBy(product => product.ProductName).Take(count));
-            }
+
+            return View(productService.Take(count));
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(dbContext.Categories, "CategoryId", "CategoryName");
-            ViewData["SupplierId"] = new SelectList(dbContext.Suppliers, "SupplierId", "CompanyName");
+            ViewData["CategoryId"] = new SelectList(categoryService.GetAll(), "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(supplierService.GetAll(), "SupplierId", "CompanyName");
             return View();
         }
 
@@ -52,10 +47,10 @@ namespace Northwind.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(ProductEditModel model)
         {
-            
             if (ModelState.IsValid)
             {
-                var product = new Product() {
+                var product = new Product
+                {
                     CategoryId = model.CategoryId,
                     Discontinued = model.Discontinued,
                     ProductName = model.ProductName,
@@ -67,23 +62,21 @@ namespace Northwind.Controllers
                     UnitsOnOrder = model.UnitsOnOrder
                 };
 
-                dbContext.Products.Add(product);
-                dbContext.SaveChanges();
+                productService.Create(product);
 
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                return View();
-            }
+
+            return View();
         }
+
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            ViewData["CategoryId"] = new SelectList(dbContext.Categories, "CategoryId", "CategoryName");
-            ViewData["SupplierId"] = new SelectList(dbContext.Suppliers, "SupplierId", "CompanyName");
-            return View(dbContext.Products.FirstOrDefault(product => product.ProductId == id));
+            ViewData["CategoryId"] = new SelectList(categoryService.GetAll(), "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(supplierService.GetAll(), "SupplierId", "CompanyName");
+            return View(productService.Get(id));
         }
 
         [HttpPost]
@@ -92,7 +85,7 @@ namespace Northwind.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = new Product()
+                var product = new Product
                 {
                     ProductId = model.ProductId,
                     CategoryId = model.CategoryId,
@@ -106,15 +99,12 @@ namespace Northwind.Controllers
                     UnitsOnOrder = model.UnitsOnOrder
                 };
 
-                dbContext.Products.Update(product);
-                dbContext.SaveChanges();
+                productService.Edit(product);
 
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                return View();
-            }
+
+            return View();
         }
     }
 }

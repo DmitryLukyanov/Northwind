@@ -1,0 +1,19 @@
+﻿@model IEnumerable<BreadcrumbViewModel>
+
+    <div class="container">
+        @foreach (var br in Model)
+        {
+            @if (!string.IsNullOrEmpty(br.Url))
+            {
+                <a href="@br.Url">@br.DisplayName</a>
+                @if (!br.Equals(Model.Last()))
+                {
+                    <span>></span>
+                }
+            }
+            else
+            {
+                <span>@br.DisplayName</span>
+            }
+        }
+    </div>
